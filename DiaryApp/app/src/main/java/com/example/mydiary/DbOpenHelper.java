@@ -24,7 +24,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
         return sInstance;
     }
 
-    private DbOpenHelper(Context context) {
+    public DbOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
