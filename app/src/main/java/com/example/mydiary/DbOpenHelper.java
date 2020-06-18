@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 import java.util.Date;
 
-public class DbOpenHelper extends SQLiteOpenHelper{
+public class DbOpenHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "Diary.db";
     public static final int DB_VERSION = 1;
@@ -25,6 +25,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
     }
 
     public DbOpenHelper(Context context) {
+
         super(context, DB_NAME, null, DB_VERSION);
     }
 
