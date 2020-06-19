@@ -1,5 +1,6 @@
 package com.example.mydiary;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
@@ -33,44 +34,38 @@ public class MainActivity extends AppCompatActivity {
     private String tag = "SQLite";
     private int dbVersion = 1;
 
+    ListViewAdapter adapter;
+
+    ListView listview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());      // 버전
 
-        ListViewAdapter adapter;
-
-        // Adapter 생성
-        adapter = new ListViewAdapter();
-
         // 리스트뷰 참조 및 Adapter달기
         //binding.dbListView.setAdapter(adapter);
 
-        ListView listview;
+        adapter = new ListViewAdapter();
 
         listview = (ListView) findViewById(R.id.dbListView);
         listview.setAdapter(adapter);
+        setListViewHeightBasedOnChildren(listview);
 
         // 첫 번째 아이템 추가.
-        adapter.addItem("Box", "Account Box Black 36dp") ;
+        adapter.addItem("Box", "Account Box Black 36dp");
         // 두 번째 아이템 추가.
         adapter.addItem(
                 "Circle", "Account Circle Black 36dp") ;
         // 세 번째 아이템 추가.
         adapter.addItem(
                 "Ind", "Assignment Ind Black 36dp") ;
-        adapter.addItem(
-                "Ind", "Assignment Ind Black 36dp") ;
-        adapter.addItem(
-                "Ind", "Assignment Ind Black 36dp") ;
-        adapter.addItem(
-                "Ind", "Assignment Ind Black 36dp") ;
-        adapter.addItem(
-                "Ind", "Assignment Ind Black 36dp") ;
 
         try {
             db = helper.getsInstance(this).getWritableDatabase();
+
+            select();
         }
         catch (SQLiteException e) {
             e.printStackTrace();
@@ -114,17 +109,22 @@ public class MainActivity extends AppCompatActivity {
 
     void select () {
         Cursor c = db.query(Databases.DBdata.TABLENAME, null, null, null, null, null, null);
+
         while(c.moveToNext()) {
             int _id = c.getInt(0);
             String title = c.getString(1);
             String content = c.getString(2);
+            adapter.addItem(
+                    title, content);
+
+            Log.i(tag, String.valueOf(adapter));
 
             Log.d(tag,"_id:"+_id+",title:"+title
                     +",content:"+content);
 
             // 키보드 내리기
-            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+//            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 
@@ -137,5 +137,22 @@ public class MainActivity extends AppCompatActivity {
         Log.d(tag, result + "번째 row insert 성공했음");
 
         select(); // insert 후에 select 하도록
+    }
+
+    public static void setListViewHeightBasedOnChildren(@NonNull ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }
