@@ -1,10 +1,12 @@
 package com.example.mydiary;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -51,20 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
         listview = (ListView) findViewById(R.id.dbListView);
         listview.setAdapter(adapter);
-        setListViewHeightBasedOnChildren(listview);
-
-        // 첫 번째 아이템 추가.
-        adapter.addItem("Box", "Account Box Black 36dp");
-        // 두 번째 아이템 추가.
-        adapter.addItem(
-                "Circle", "Account Circle Black 36dp") ;
-        // 세 번째 아이템 추가.
-        adapter.addItem(
-                "Ind", "Assignment Ind Black 36dp") ;
 
         try {
             db = helper.getsInstance(this).getWritableDatabase();
-
             select();
         }
         catch (SQLiteException e) {
@@ -83,6 +74,35 @@ public class MainActivity extends AppCompatActivity {
             }
 
             insert (title, content);
+        });
+
+        binding.dbListView.setOnItemLongClickListener((parent, view, position, id)->{
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("삭제");
+            alert.setMessage("정말로 삭제 하시겠습니까?");
+
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.i("asdf", "asdf");
+                }
+            });
+
+            alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+
+                }
+            });
+
+            alert.show();
+
+            final long deleteId = id;
+
+            Cursor cursor = (Cursor) adapter.getItem(position);
+
+            return true;
         });
     }
 
@@ -137,22 +157,5 @@ public class MainActivity extends AppCompatActivity {
         Log.d(tag, result + "번째 row insert 성공했음");
 
         select(); // insert 후에 select 하도록
-    }
-
-    public static void setListViewHeightBasedOnChildren(@NonNull ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
     }
 }
