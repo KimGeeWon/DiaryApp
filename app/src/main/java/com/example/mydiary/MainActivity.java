@@ -49,12 +49,9 @@ public class MainActivity extends AppCompatActivity {
         // 리스트뷰 참조 및 Adapter달기
         //binding.dbListView.setAdapter(adapter);
 
-        adapter = new ListViewAdapter();
-
-        listview = (ListView) findViewById(R.id.dbListView);
-        listview.setAdapter(adapter);
-
         try {
+            helper = new DbOpenHelper(this);
+
             db = helper.getsInstance(this).getWritableDatabase();
             select();
         }
@@ -78,38 +75,39 @@ public class MainActivity extends AppCompatActivity {
 
         binding.dbListView.setOnItemLongClickListener((parent, view, position, id)->{
 
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("삭제");
-            alert.setMessage("정말로 삭제 하시겠습니까?");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("삭제");
+            builder.setMessage("삭제 하시겠습니까?");
+            builder.setPositiveButton("예",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(),"예를 선택했습니다.",Toast.LENGTH_LONG).show();
 
-            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Log.i("asdf", "asdf");
-                }
-            });
+                            TextView t = (TextView) view.findViewById(R.id.id);
 
-            alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
+                            String _id = t.getText().toString();
 
-                }
-            });
-
-            alert.show();
-
-            final long deleteId = id;
-
-            Cursor cursor = (Cursor) adapter.getItem(position);
+                            delete(String.valueOf(_id));
+                        }
+                    });
+            builder.setNegativeButton("아니오",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                        }
+                    });
+            builder.show();
 
             return true;
         });
     }
 
-    void delete(String name) {
-        int result = db.delete(Databases.DBdata.TABLENAME, "name=?", new String[] {name});
+    void delete(String id) {
+        int result = db.delete(Databases.DBdata.TABLENAME, "id=?", new String[] {id});
         Log.d(tag, result + "개 row delete 성공");
+
         select(); // delete 후에 select 하도록
+        //adapter.notifyDataSetChanged();
     }
 
     void update (String name, int age, String address) {
@@ -123,23 +121,28 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{name});// 바꿀 항목으로 찾을 값 String 배열
         Log.d(tag, result+"번째 row update 성공");
 
-        //binding.dbListView.add();
         select (); // 업데이트 후에 조회하도록
     }
 
     void select () {
+
+        adapter = new ListViewAdapter();
+
+        listview = (ListView) findViewById(R.id.dbListView);
+        listview.setAdapter(adapter);
+
         Cursor c = db.query(Databases.DBdata.TABLENAME, null, null, null, null, null, null);
 
         while(c.moveToNext()) {
-            int _id = c.getInt(0);
+            int id = c.getInt(0);
             String title = c.getString(1);
             String content = c.getString(2);
             adapter.addItem(
-                    title, content);
+                    title, content, String.valueOf(id));
 
             Log.i(tag, String.valueOf(adapter));
 
-            Log.d(tag,"_id:"+_id+",title:"+title
+            Log.d(tag,"id:"+id+",title:"+title
                     +",content:"+content);
 
             // 키보드 내리기

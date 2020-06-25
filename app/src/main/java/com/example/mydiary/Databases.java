@@ -7,7 +7,7 @@ import java.util.Date;
 public class Databases {
     public static final class DBdata implements BaseColumns {
         public static final String TABLENAME = "Diary";
-
+        public static final String ID = "id";
         public static final String TITLE = "title";
         public static final String CONTENT = "content";
         public static final String CREATED = "created";
@@ -18,7 +18,7 @@ public class Databases {
                   "%s TEXT not null DEFAULT (datetime('now', 'localtime')), " +
                   "%s TEXT)",
                 TABLENAME,
-                _ID,
+                ID,
                 TITLE,
                 CONTENT,
                 CREATED,
