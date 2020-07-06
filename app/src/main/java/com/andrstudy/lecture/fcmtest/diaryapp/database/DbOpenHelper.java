@@ -1,15 +1,8 @@
-package com.example.mydiary;
+package com.andrstudy.lecture.fcmtest.diaryapp.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import androidx.annotation.Nullable;
-
-import java.util.Date;
 
 public class DbOpenHelper extends SQLiteOpenHelper {
 

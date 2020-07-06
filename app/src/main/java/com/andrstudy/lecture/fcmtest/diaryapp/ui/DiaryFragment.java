@@ -1,35 +1,33 @@
-package com.example.mydiary;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+package com.andrstudy.lecture.fcmtest.diaryapp.ui;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.CursorAdapter;
-import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mydiary.databinding.ActivityMainBinding;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
-public class MainActivity extends AppCompatActivity {
+import com.andrstudy.lecture.fcmtest.diaryapp.ListViewAdapter;
+import com.andrstudy.lecture.fcmtest.diaryapp.R;
+import com.andrstudy.lecture.fcmtest.diaryapp.database.Databases;
+import com.andrstudy.lecture.fcmtest.diaryapp.database.DbOpenHelper;
+import com.andrstudy.lecture.fcmtest.diaryapp.databinding.FragmentDiaryWriteBinding;
 
-    private ActivityMainBinding binding;
+public class DiaryFragment extends Fragment {
+
+    private FragmentDiaryWriteBinding binding;
 
     private DbOpenHelper helper;
     private SQLiteDatabase db;
@@ -38,27 +36,25 @@ public class MainActivity extends AppCompatActivity {
 
     ListViewAdapter adapter;
 
-    ListView listview;
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentDiaryWriteBinding.inflate(inflater);
+        return binding.getRoot();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());      // 버전
-
-        // 리스트뷰 참조 및 Adapter달기
-        //binding.dbListView.setAdapter(adapter);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         try {
-            helper = new DbOpenHelper(this);
+            helper = new DbOpenHelper(requireContext());
 
-            db = helper.getsInstance(this).getWritableDatabase();
+            db = helper.getsInstance(requireContext()).getWritableDatabase();
             select();
         }
         catch (SQLiteException e) {
             e.printStackTrace();
             Log.e(tag, "데이터베이스를 얻어올 수 없음");
-            finish(); // 액티비티 종료
         }
 
         binding.buttonApply.setOnClickListener(v->{
@@ -66,34 +62,34 @@ public class MainActivity extends AppCompatActivity {
             String content = binding.editContent.getText().toString();
 
             if ("".equals(title)){
-                Toast.makeText(this, "제목을 입력하세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "제목을 입력하세요.", Toast.LENGTH_SHORT).show();
                 return;// 그냥 빠져나감
             }
 
-            insert (title, content);
+            insert(title, content);
+
+            binding.editTitle.setText("");
+            binding.editContent.setText("");
         });
 
-        binding.dbListView.setOnItemLongClickListener((parent, view, position, id)->{
+        binding.dbListView.setOnItemLongClickListener((parent, _view, position, id)->{
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("삭제");
             builder.setMessage("삭제 하시겠습니까?");
             builder.setPositiveButton("예",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(),"예를 선택했습니다.",Toast.LENGTH_LONG).show();
-
+                            Toast.makeText(requireContext(),"예를 선택했습니다.",Toast.LENGTH_LONG).show();
                             TextView t = (TextView) view.findViewById(R.id.id);
-
                             String _id = t.getText().toString();
-
                             delete(String.valueOf(_id));
                         }
                     });
             builder.setNegativeButton("아니오",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(requireContext(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
                         }
                     });
             builder.show();
@@ -128,8 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ListViewAdapter();
 
-        listview = (ListView) findViewById(R.id.dbListView);
-        listview.setAdapter(adapter);
+        binding.dbListView.setAdapter(adapter);
 
         Cursor c = db.query(Databases.DBdata.TABLENAME, null, null, null, null, null, null);
 
@@ -137,6 +132,13 @@ public class MainActivity extends AppCompatActivity {
             int id = c.getInt(0);
             String title = c.getString(1);
             String content = c.getString(2);
+//            String created = c.getString(3);
+//
+//            String arr[] = created.split(" ");
+//
+//            Log.i(tag, arr[0]); // 날짜
+//            Log.i(tag, arr[1]); // 시간
+
             adapter.addItem(
                     title, content, String.valueOf(id));
 

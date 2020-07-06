@@ -1,4 +1,4 @@
-package com.example.mydiary;
+package com.andrstudy.lecture.fcmtest.diaryapp;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.mydiary", appContext.getPackageName());
+        assertEquals("com.andrstudy.lecture.fcmtest.diaryapp", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.mydiary;
+package com.andrstudy.lecture.fcmtest.diaryapp;
 
 import org.junit.Test;
 

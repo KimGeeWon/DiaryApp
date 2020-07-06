@@ -1,16 +1,14 @@
-package com.example.mydiary;
+package com.andrstudy.lecture.fcmtest.diaryapp;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mydiary.databinding.ListViewItemBinding;
+import com.andrstudy.lecture.fcmtest.diaryapp.databinding.ListItemBinding;
 
 import java.util.ArrayList;
 
@@ -18,7 +16,7 @@ public class ListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
 
-    ListViewItemBinding binding;
+    ListItemBinding binding;
 
     // ListViewAdapter의 생성자
     public ListViewAdapter() {
@@ -40,7 +38,7 @@ public class ListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_view_item, parent, false);
+            convertView = inflater.inflate(R.layout.list_item, parent, false);
         }
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득

@@ -1,8 +1,6 @@
-package com.example.mydiary;
+package com.andrstudy.lecture.fcmtest.diaryapp.database;
 
 import android.provider.BaseColumns;
-
-import java.util.Date;
 
 public class Databases {
     public static final class DBdata implements BaseColumns {
