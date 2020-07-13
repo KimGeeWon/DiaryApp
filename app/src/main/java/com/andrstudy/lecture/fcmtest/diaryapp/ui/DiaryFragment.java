@@ -70,8 +70,6 @@ public class DiaryFragment extends Fragment {
             String title = binding.editTitle.getText().toString();
             String content = binding.editContent.getText().toString();
 
-            Log.i("asdf", btn);
-
             if(btn.equals("확인")) {
                 if ("".equals(title)){
                     Toast.makeText(requireContext(), "제목을 입력하세요.", Toast.LENGTH_SHORT).show();
@@ -103,8 +101,6 @@ public class DiaryFragment extends Fragment {
             String date = sdf.format(_date);
 
             binding.editContent.setText(content + date);
-
-            Log.i("qwer", date);
         });
 
         binding.dbListView.setOnItemClickListener((parent, _view, position, id)->{
@@ -140,7 +136,6 @@ public class DiaryFragment extends Fragment {
                             Toast.makeText(requireContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
                             TextView t = (TextView) _view.findViewById(R.id.id);
                             String _id = t.getText().toString();
-                            Log.i("qwer", _id);
                             delete(_id);
                         }
                     });
@@ -162,10 +157,8 @@ public class DiaryFragment extends Fragment {
 
     void delete(String id) {
         int result = db.delete(Databases.DBdata.TABLENAME, "id=?", new String[] {id});
-        Log.d(tag, result + "개 row delete 성공");
 
         select(); // delete 후에 select 하도록
-        //adapter.notifyDataSetChanged();
     }
 
     void update (String id, String title, String content) {
@@ -177,7 +170,6 @@ public class DiaryFragment extends Fragment {
                 values,    // 뭐라고 변경할지 ContentValues 설정
                 "id=?", // 바꿀 항목을 찾을 조건절
                 new String[]{id});// 바꿀 항목으로 찾을 값 String 배열
-        Log.d(tag, result+"번째 row update 성공");
 
         select (); // 업데이트 후에 조회하도록
     }
@@ -194,24 +186,11 @@ public class DiaryFragment extends Fragment {
             int id = c.getInt(0);
             String title = c.getString(1);
             String content = c.getString(2);
-//            String created = c.getString(3);
+            String created = c.getString(3);
 //
-//            String arr[] = created.split(" ");
-//
-//            Log.i(tag, arr[0]); // 날짜
-//            Log.i(tag, arr[1]); // 시간
 
             adapter.addItem(
-                    title, content, String.valueOf(id));
-
-            Log.i(tag, String.valueOf(adapter));
-
-            Log.d(tag,"id:"+id+",title:"+title
-                    +",content:"+content);
-
-            // 키보드 내리기
-//            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-//            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    title, content, created, String.valueOf(id));
         }
     }
 
@@ -221,7 +200,6 @@ public class DiaryFragment extends Fragment {
         values.put("title", title);
         values.put("content", content);
         long result = db.insert(Databases.DBdata.TABLENAME, null, values);
-        Log.d(tag, result + "번째 row insert 성공했음");
 
         select(); // insert 후에 select 하도록
     }

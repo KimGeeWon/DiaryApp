@@ -44,17 +44,16 @@ public class ListViewAdapter extends BaseAdapter {
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         ListViewItem listViewItem = listViewItemList.get(position);
 
-        Log.i("test", listViewItem.getTitle());
-        Log.i("test", listViewItem.getContent());
-
         TextView titleTextView = (TextView) convertView.findViewById(R.id.title);
         TextView contentTextView = (TextView) convertView.findViewById(R.id.content);
         TextView idTextView = (TextView) convertView.findViewById(R.id.id);
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.date);
 
         // 아이템 내 각 위젯에 데이터 반영
         titleTextView.setText(listViewItem.getTitle());
         contentTextView.setText(listViewItem.getContent());
         idTextView.setText(listViewItem.getId());
+        dateTextView.setText(listViewItem.getDate());
 
         return convertView;
     }
@@ -72,11 +71,12 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String title, String content, String id) {
+    public void addItem(String title, String content, String date, String id) {
         ListViewItem item = new ListViewItem();
 
         item.setTitle(title);
         item.setContent(content);
+        item.setDate(date);
         item.setId(id);
 
         listViewItemList.add(item);
