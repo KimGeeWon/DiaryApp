@@ -13,8 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7dae3988-6172-4017-996e-3ecdeb42c41f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/ui/DiaryFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/ui/DiaryFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_diary_write.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_diary_write.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
