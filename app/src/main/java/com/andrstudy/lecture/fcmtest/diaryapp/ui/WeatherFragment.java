@@ -59,7 +59,8 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
                 weatherData = response.body();
-                ArrayList cod = weatherData.list;
+                String cod = weatherData.cod;
+                Log.i("Weather", cod);
             }
 
             @Override
