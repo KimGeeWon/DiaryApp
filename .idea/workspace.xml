@@ -12,9 +12,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dae3988-6172-4017-996e-3ecdeb42c41f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/WeatherViewAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/WeatherViewItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/weather_item.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/ui/DiaryFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/ui/DiaryFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/ui/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/ui/HomeFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/ui/WeatherFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/andrstudy/lecture/fcmtest/diaryapp/ui/WeatherFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_weather.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_weather.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,15 +56,16 @@
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_API_29_new" />
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-07-06T05:15:29.527Z" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../android-sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\MyDiary\app\src\main\res\layout" />
+      <recent name="C:\MyDiary\app\src\main\java\com\andrstudy\lecture\fcmtest\diaryapp" />
       <recent name="C:\androidWorkspace\DiaryApp\app\src\main\res\layout" />
       <recent name="C:\androidWorkspace\DiaryApp\app\src\main\res\drawable" />
       <recent name="C:\androidWorkspace\DiaryApp\app\src\main\java\com\andrstudy\lecture\fcmtest\diaryapp" />
-      <recent name="C:\androidWorkspace\DiaryApp\app\src\main\java\com\andrstudy\lecture\fcmtest\diaryapp\database" />
     </key>
   </component>
   <component name="RunDashboard">

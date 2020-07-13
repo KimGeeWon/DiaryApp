@@ -25,6 +25,11 @@ import com.andrstudy.lecture.fcmtest.diaryapp.database.Databases;
 import com.andrstudy.lecture.fcmtest.diaryapp.database.DbOpenHelper;
 import com.andrstudy.lecture.fcmtest.diaryapp.databinding.FragmentDiaryWriteBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public class DiaryFragment extends Fragment {
 
     private FragmentDiaryWriteBinding binding;
@@ -70,6 +75,21 @@ public class DiaryFragment extends Fragment {
 
             binding.editTitle.setText("");
             binding.editContent.setText("");
+        });
+
+        binding.imageTimeStamp.setOnClickListener(v->{
+            String content = binding.editContent.getText().toString();
+
+            SimpleDateFormat sdf = new  SimpleDateFormat("HH:mm", Locale.KOREA);
+            Date _date = new Date();
+            TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+            sdf.setTimeZone(tz);
+
+            String date = sdf.format(_date);
+
+            binding.editContent.setText(content + date);
+
+            Log.i("qwer", date);
         });
 
         binding.dbListView.setOnItemLongClickListener((parent, _view, position, id)->{

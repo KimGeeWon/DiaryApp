@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,8 +18,11 @@ import androidx.fragment.app.Fragment;
 
 import com.andrstudy.lecture.fcmtest.diaryapp.RequestHttpURLConnection;
 import com.andrstudy.lecture.fcmtest.diaryapp.Server;
+import com.andrstudy.lecture.fcmtest.diaryapp.WeatherViewAdapter;
 import com.andrstudy.lecture.fcmtest.diaryapp.data.Clouds;
+import com.andrstudy.lecture.fcmtest.diaryapp.data.Lists;
 import com.andrstudy.lecture.fcmtest.diaryapp.data.WeatherData;
+import com.andrstudy.lecture.fcmtest.diaryapp.data.Weathers;
 import com.andrstudy.lecture.fcmtest.diaryapp.databinding.FragmentWeatherBinding;
 
 import org.json.JSONException;
@@ -33,6 +37,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +48,7 @@ public class WeatherFragment extends Fragment {
     private FragmentWeatherBinding binding;
 
     private WeatherData weatherData;
+    WeatherViewAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -58,9 +64,11 @@ public class WeatherFragment extends Fragment {
         request.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+                adapter = new WeatherViewAdapter();
+
                 weatherData = response.body();
-                String cod = weatherData.cod;
-                Log.i("Weather", cod);
+                WeatherData cod = weatherData;
+                setDataView(weatherData);
             }
 
             @Override
@@ -68,5 +76,14 @@ public class WeatherFragment extends Fragment {
                 Log.i("Error", t.toString());
             }
         });
+    }
+
+    public void setDataView(WeatherData data) {
+        //adapter = new WeatherViewAdapter();
+        for(Lists d : data.list) {
+            Log.i("asdf", String.valueOf(d));
+//            adapter.addItem(d.dt_txt, d.weather., Math.round(d.main.temp - 273) + "도");
+        }
+        binding.weatherListView.setAdapter(adapter);
     }
 }
