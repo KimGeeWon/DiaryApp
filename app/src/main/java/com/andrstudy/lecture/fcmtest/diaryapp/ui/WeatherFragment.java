@@ -81,8 +81,9 @@ public class WeatherFragment extends Fragment {
     public void setDataView(WeatherData data) {
         //adapter = new WeatherViewAdapter();
         for(Lists d : data.list) {
-            Log.i("asdf", String.valueOf(d));
-//            adapter.addItem(d.dt_txt, d.weather., Math.round(d.main.temp - 273) + "도");
+            for(Weathers s : d.weather) {
+                adapter.addItem(d.dt_txt, s.main, Math.round(d.main.temp - 273) + "도");
+            }
         }
         binding.weatherListView.setAdapter(adapter);
     }
