@@ -26,22 +26,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTitle" />
 
-    <ImageView
-        android:id="@+id/imagePhoto"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_photo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editContent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imagePhoto"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:src="@drawable/ic_photo"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editContent" />-->
 
-    <ImageView
-        android:id="@+id/imagePicture"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_picture"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/imagePhoto"
-        app:layout_constraintTop_toBottomOf="@+id/editContent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imagePicture"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:src="@drawable/ic_picture"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/imagePhoto"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editContent" />-->
 
     <ImageView
         android:id="@+id/imageTimeStamp"
@@ -49,7 +49,7 @@
         android:layout_height="40dp"
         android:src="@drawable/ic_timestamp"
         android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/imagePicture"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editContent" />
 
     <Button
@@ -72,14 +72,16 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ListView
                 android:id="@+id/dbListView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginBottom="55dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

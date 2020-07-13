@@ -39,6 +39,8 @@ public class DiaryFragment extends Fragment {
     private String tag = "SQLite";
     private int dbVersion = 1;
 
+    private String strId;
+
     ListViewAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,18 +65,31 @@ public class DiaryFragment extends Fragment {
         }
 
         binding.buttonApply.setOnClickListener(v->{
+            String btn = (String) binding.buttonApply.getText();
+
             String title = binding.editTitle.getText().toString();
             String content = binding.editContent.getText().toString();
 
-            if ("".equals(title)){
-                Toast.makeText(requireContext(), "제목을 입력하세요.", Toast.LENGTH_SHORT).show();
-                return;// 그냥 빠져나감
+            Log.i("asdf", btn);
+
+            if(btn.equals("확인")) {
+                if ("".equals(title)){
+                    Toast.makeText(requireContext(), "제목을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    return;// 그냥 빠져나감
+                }
+
+                insert(title, content);
+
+                binding.editTitle.setText("");
+                binding.editContent.setText("");
             }
+            else {
+                update(strId, title, content);
 
-            insert(title, content);
-
-            binding.editTitle.setText("");
-            binding.editContent.setText("");
+                binding.buttonApply.setText("확인");
+                binding.editTitle.setText("");
+                binding.editContent.setText("");
+            }
         });
 
         binding.imageTimeStamp.setOnClickListener(v->{
@@ -92,6 +107,28 @@ public class DiaryFragment extends Fragment {
             Log.i("qwer", date);
         });
 
+        binding.dbListView.setOnItemClickListener((parent, _view, position, id)->{
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("수정");
+            builder.setMessage("수정 하시겠습니까?");
+            builder.setPositiveButton("예",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(requireContext(),"상단을 통해 수정해주세요.",Toast.LENGTH_LONG).show();
+                            TextView t = (TextView) _view.findViewById(R.id.id);
+                            strId = t.getText().toString();
+                            changeUpdate();
+                        }
+                    });
+            builder.setNegativeButton("아니오",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(requireContext(),"취소하셨습니다.",Toast.LENGTH_LONG).show();
+                        }
+                    });
+            builder.show();
+        });
+
         binding.dbListView.setOnItemLongClickListener((parent, _view, position, id)->{
 
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -100,22 +137,27 @@ public class DiaryFragment extends Fragment {
             builder.setPositiveButton("예",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(requireContext(),"예를 선택했습니다.",Toast.LENGTH_LONG).show();
-                            TextView t = (TextView) view.findViewById(R.id.id);
+                            Toast.makeText(requireContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
+                            TextView t = (TextView) _view.findViewById(R.id.id);
                             String _id = t.getText().toString();
-                            delete(String.valueOf(_id));
+                            Log.i("qwer", _id);
+                            delete(_id);
                         }
                     });
             builder.setNegativeButton("아니오",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(requireContext(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(requireContext(),"취소되었습니다.",Toast.LENGTH_LONG).show();
                         }
                     });
             builder.show();
 
             return true;
         });
+    }
+
+    void changeUpdate() {
+        binding.buttonApply.setText("수정");
     }
 
     void delete(String id) {
@@ -126,15 +168,15 @@ public class DiaryFragment extends Fragment {
         //adapter.notifyDataSetChanged();
     }
 
-    void update (String name, int age, String address) {
+    void update (String id, String title, String content) {
         ContentValues values = new ContentValues();
-        values.put("age", age);         // 바꿀값
-        values.put("address", address); // 바꿀값
+        values.put("title", title);         // 바꿀값
+        values.put("content", content);     // 바꿀값
 
         int result = db.update(Databases.DBdata.TABLENAME,
                 values,    // 뭐라고 변경할지 ContentValues 설정
-                "name=?", // 바꿀 항목을 찾을 조건절
-                new String[]{name});// 바꿀 항목으로 찾을 값 String 배열
+                "id=?", // 바꿀 항목을 찾을 조건절
+                new String[]{id});// 바꿀 항목으로 찾을 값 String 배열
         Log.d(tag, result+"번째 row update 성공");
 
         select (); // 업데이트 후에 조회하도록
